@@ -1,2 +1,2 @@
 # electron-react-typescript-setup
- Electron desktop app using electron, react and typescript
+ Electron desktop app using react, typescript and react-three/fiber

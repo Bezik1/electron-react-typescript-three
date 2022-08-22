@@ -1,23 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import { Color, Mesh } from 'three'
 
-function App() {
+import './App.css';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+
+interface BoxProps {
+  color: Color
+}
+
+const Box = (props: BoxProps) =>{
+  const { color } = props
+
+  const meshRef = useRef<Mesh>(null!)
+  const [clicked, click] = useState(false)
+
+  useFrame(() =>{
+    meshRef.current.rotation.y -= 0.02
+    meshRef.current.rotation.x -= 0.02
+    meshRef.current.rotation.z -= 0.02
+  })
+
+  return (
+    <mesh ref={meshRef}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshPhongMaterial color={color} />
+    </mesh>
+  )
+}
+
+const App = () =>{
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Canvas>
+          <ambientLight color={new Color('#0000ff')} intensity={0.06} />
+          <pointLight color={new Color('#0000ff')} intensity={20} position={[1, 1, 1]}/>
+          <OrbitControls />
+          <Box color={new Color('ff0000')} />
+        </Canvas>
       </header>
     </div>
   );
